@@ -1,0 +1,6 @@
+export const HTTP_STATUS_CODE = {
+  OK: 200,
+  BAD_REQUEST: 400,
+  NOTFOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;
