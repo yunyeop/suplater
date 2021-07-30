@@ -1,5 +1,6 @@
 import express from "express";
 import { createServer } from "http";
+import cors from 'cors';
 import router from "./routes";
 import dotenv from 'dotenv';
 import path from 'path';
@@ -16,6 +17,7 @@ process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim()
 const app: express.Application = express();
 const server = createServer(app);
 
+app.use(cors());
 app.use('/', router);
 
 server.listen(process.env.PORT, () => {
