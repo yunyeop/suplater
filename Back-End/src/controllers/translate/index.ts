@@ -24,7 +24,20 @@ const getGoogleResult = async (req: express.Request, res: express.Response) => {
   }
 }
 
+const getKakaoResult = async (req: express.Request, res: express.Response) => {
+  const { source, target, text }: TranslaterParams = req.query;
+
+  try {
+    const translatedValue = await TranslateService.getKakaoTranslaterApiData(source, target, text);
+    return res.status(HTTP_STATUS_CODE.OK).send(translatedValue);
+  } catch (e) {
+    console.log(e)
+    return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send();
+  }
+}
+
 export {
   getPapagoResult,
   getGoogleResult,
+  getKakaoResult,
 }

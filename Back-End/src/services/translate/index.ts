@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URLSearchParams } from 'url';
-import { GOOGLE_TRANSLATER_API_URL, PAPAGO_API_URL } from "../../constants/API";
+import { GOOGLE_TRANSLATER_API_URL, KAKAO_TRANSLATER_API_URL, PAPAGO_API_URL } from "../../constants/API";
 
 export interface TranslaterParams {
   source?: string;
@@ -40,7 +40,25 @@ const getGoogleTranslaterApiData = async (
   return data.data.translations[0].translatedText;
 }
 
+const getKakaoTranslaterApiData = async(
+  source: string = 'en',
+  target: string = 'kr',
+  text: string
+) => {
+  const { data } = await axios.get(KAKAO_TRANSLATER_API_URL, {
+    headers: { Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}` },
+    params: {
+      query: text,
+      src_lang: source,
+      target_lang: target,
+    }
+  });
+
+  return data.translated_text[0][0];
+}
+
 export default {
   getPapagoApiData,
   getGoogleTranslaterApiData,
+  getKakaoTranslaterApiData,
 }
