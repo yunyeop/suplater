@@ -14,6 +14,7 @@ const Main = () => {
       setTargetValue(data);
     };
 
+    // first render skip
     if (didMount.current) {
       getTranslatedValue();
     } else {
