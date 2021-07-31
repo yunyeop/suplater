@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import { useEffect } from 'react';
+import LanguageSelectBox from '../../components/LanguageSelectBox';
 
 const Main = () => {
   const didMount = useRef(false);
@@ -21,6 +22,10 @@ const Main = () => {
       didMount.current = true;
     }
   }, [sourceValue]);
+
+  const handleSourceLangChange = () => {
+    console.log('handle raect-select change value!!');
+  }
 
 
   const handleFoucsOut = (e: FocusEvent<HTMLInputElement>) => {
@@ -44,6 +49,8 @@ const Main = () => {
       <div>
         input your text
       </div>
+      <LanguageSelectBox
+        onChange={handleSourceLangChange} />
       <input
         type="text"
         onBlur={handleFoucsOut}
