@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FocusEvent, useRef, useState } from 'react';
+import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import { useEffect } from 'react';
 
 const Main = () => {
@@ -10,8 +10,7 @@ const Main = () => {
 
   useEffect(() => {
     const getTranslatedValue = async () => {
-      console.log(didMount)
-      const { data } = await axios.get<string>(`http://localhost:1029/translate/papago?text=${sourceValue}&source=ko&target=en`);
+      const { data } = await axios.get<string>(`http://localhost:1029/translate/papago?text=${sourceValue}&source=en&target=ko`);
       setTargetValue(data);
     };
 
@@ -22,11 +21,20 @@ const Main = () => {
     }
   }, [sourceValue]);
 
+
   const handleFoucsOut = (e: FocusEvent<HTMLInputElement>) => {
     const sourceValue = e.target.value;
 
     if (sourceValue.length > 0) {
       setSourceValue(sourceValue);
+    }
+  }
+
+  const handlePressEnter = ({ code, currentTarget }: KeyboardEvent<HTMLInputElement>) => {
+    // if pressed Enter
+    if (code === 'Enter') {
+      setSourceValue(currentTarget.value);
+      currentTarget.blur();
     }
   }
 
@@ -37,7 +45,8 @@ const Main = () => {
       </div>
       <input
         type="text"
-        onBlur={handleFoucsOut} />
+        onBlur={handleFoucsOut}
+        onKeyUp={handlePressEnter} />
       <div>{targetValue}</div>
     </>
   );
