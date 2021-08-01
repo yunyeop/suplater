@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import Select, { OptionTypeBase, ValueType } from 'react-select';
 
 interface ReactSelectOptionsType {
   value: string,
@@ -11,7 +11,7 @@ const options: ReactSelectOptionsType[] = [
 ];
 
 interface LanguageSelectBoxProps {
-  onChange: () => void;
+  onChange: (value: ValueType<OptionTypeBase, boolean>) => void;
 }
 
 const LanguageSelectBox = ({ onChange }: LanguageSelectBoxProps) => {

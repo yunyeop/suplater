@@ -1,17 +1,27 @@
 import axios from 'axios';
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import { useEffect } from 'react';
+import { OptionTypeBase, ValueType } from 'react-select';
 import LanguageSelectBox from '../../components/LanguageSelectBox';
+import { Lang } from '../../types/language';
 
 const Main = () => {
   const didMount = useRef(false);
 
   const [sourceValue, setSourceValue] = useState<string>('');
+  const [sourceLang, setSourceLang] = useState<Lang>('ko');
   const [targetValue, setTargetValue] = useState<string>('');
+  const [targetLang, setTargetLang] = useState<Lang>('en');
 
   useEffect(() => {
     const getTranslatedValue = async () => {
-      const { data } = await axios.get<string>(`http://localhost:1029/translate/papago?text=${sourceValue}&source=en&target=ko`);
+      const { data } = await axios.get<string>(`http://localhost:1029/translate/papago`, {
+        params: {
+          text: sourceValue,
+          source: sourceLang,
+          target: targetLang,
+        }
+      });
       setTargetValue(data);
     };
 
@@ -23,8 +33,8 @@ const Main = () => {
     }
   }, [sourceValue]);
 
-  const handleSourceLangChange = () => {
-    console.log('handle raect-select change value!!');
+  const handleSourceLangChange = ({ value }: any) => {
+    setSourceLang(value);
   }
 
 
@@ -48,6 +58,12 @@ const Main = () => {
     <>
       <div>
         input your text
+      </div>
+      <div>
+        sourceLang: { sourceLang }
+      </div>
+      <div>
+        targetLang: { targetLang }
       </div>
       <LanguageSelectBox
         onChange={handleSourceLangChange} />
